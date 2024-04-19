@@ -3,7 +3,7 @@ class Solution:
     m = len(grid)
     n = len(grid[0])
 
-    def dfs(i: int, j: int) -> None:
+    def dfs(i, j):
       if i < 0 or i == m or j < 0 or j == n:
         return
       if grid[i][j] != '1':
