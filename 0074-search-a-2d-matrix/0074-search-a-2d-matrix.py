@@ -1,22 +1,22 @@
 class Solution:
-  def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-    if not matrix:
-      return False
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m = len(matrix)
+        n = len(matrix[0])
+        t = m * n
+        l = 0
+        r = t - 1
 
-    m = len(matrix)
-    n = len(matrix[0])
-    l = 0
-    r = m * n
+        while l <= r:
+            m = (l + r) // 2
+            i = m // n
+            j = m % n
+            mid_num = matrix[i][j]
 
-    while l < r:
-      mid = (l + r) // 2
-      i = mid // n
-      j = mid % n
-      if matrix[i][j] == target:
-        return True
-      if matrix[i][j] < target:
-        l = mid + 1
-      else:
-        r = mid
+            if target == mid_num:
+                return True
+            elif target < mid_num:
+                r = m - 1
+            else:
+                l = m + 1
 
-    return False
+        return False
