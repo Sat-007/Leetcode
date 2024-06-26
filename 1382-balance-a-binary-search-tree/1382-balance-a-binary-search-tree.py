@@ -14,12 +14,14 @@ class Solution:
             inorder(root.left)
             res.append(root.val)
             inorder(root.right)
-        inorder(root)
-        print(res)
+        
         
         def build(l,r):
             if l > r:
                 return None
             m = (l+r) // 2
             return TreeNode(res[m], build(l,m-1), build(m + 1, r ))
+        
+        
+        inorder(root)
         return build(0, len(res) - 1)
