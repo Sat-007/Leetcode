@@ -3,7 +3,7 @@ class Solution:
         result = []
         top,bottom=0,len(matrix)
         left,right=0,len(matrix[0])
-        result=[]
+        
         while top<bottom and left<right:
             
             result+=matrix[top][left:right]
