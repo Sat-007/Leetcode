@@ -1,14 +1,17 @@
 class Solution:
-  def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-    if len(nums1) > len(nums2):
-      return self.intersect(nums2, nums1)
-
-    ans = []
-    count = collections.Counter(nums1)
-
-    for num in nums2:
-      if count[num] > 0:
-        ans.append(num)
-        count[num] -= 1
-
-    return ans
+  def intersect(self, num1: List[int], num2: List[int]) -> List[int]:
+    num1.sort()
+    num2.sort()
+    i = j = 0 
+    res = []
+    
+    while i < len(num1) and j < len(num2):
+        if num1[i] < num2[j]:
+            i += 1
+        elif num1[i] > num2[j]:
+            j += 1
+        else:
+            res.append(num1[i])
+            i += 1
+            j += 1
+    return res
