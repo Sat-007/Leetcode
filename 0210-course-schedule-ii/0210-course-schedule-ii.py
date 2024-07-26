@@ -3,7 +3,7 @@ class Solution:
         
         
         res = []
-        prereqs = {c:[] for c in range(numCourses)}
+        prereqs = defaultdict(list)
         for c,p in prerequisites:
             prereqs[c].append(p)
             
