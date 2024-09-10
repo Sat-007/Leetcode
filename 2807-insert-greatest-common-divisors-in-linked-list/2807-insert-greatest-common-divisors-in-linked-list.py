@@ -18,6 +18,7 @@ class Solution:
             while y != 0:
                 x, y = y, x % y
             return x
+        
         curr = head
         prev = None
         n = head.next
