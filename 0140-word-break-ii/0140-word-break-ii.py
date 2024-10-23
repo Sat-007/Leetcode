@@ -5,20 +5,14 @@ class Solution:
         def backtrack(i):
             if i == len(s):
                 res.append(" ".join(cur))
-                return 
+                return
             for j in range(i, len(s)):
                 w = s[i:j+1]
                 if w in wordDict:
-                    
                     cur.append(w)
                     backtrack(j+1)
                     cur.pop()
-                
-            
-            
-        
-        
-        
+                    
         cur = []
         res = []
         backtrack(0)
