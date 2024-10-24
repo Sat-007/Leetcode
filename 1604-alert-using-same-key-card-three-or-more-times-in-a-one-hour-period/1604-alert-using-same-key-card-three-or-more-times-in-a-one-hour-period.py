@@ -1,32 +1,27 @@
 class Solution:
     def alertNames(self, keyName: List[str], keyTime: List[str]) -> List[str]:
-        n = len(keyName)
-        times = defaultdict(list)
         
-        for i in range(n):
+        
+        keyMap = defaultdict(list)
+        
+        for i in range(len(keyName)):
             time = keyTime[i]
             name = keyName[i]
             
-            t = time.split(":")
-            h = int(t[0])
-            m = int(t[1])
-            times[name].append(h*60+m)
+            t = time.replace(":", "")
+            t = int(t)
+            keyMap[name].append(t)
             
         ans = []
         
-        for name in times:
-            times_list = sorted(times[name])
-            
-            queue = deque()
-            for t in times_list:
-                queue.append(t)
-                
-                while t - queue[0] > 60:
-                    queue.popleft()
-                
-                if len(queue) >= 3:
+        for name, t in keyMap.items():
+            t.sort()
+            n = len(t)
+            for i in range(n-2):
+                if t[i+2] - t[i] <= 100:
                     ans.append(name)
                     break
-                    
-        return sorted(ans)
             
+        
+        return sorted(ans)
+        
