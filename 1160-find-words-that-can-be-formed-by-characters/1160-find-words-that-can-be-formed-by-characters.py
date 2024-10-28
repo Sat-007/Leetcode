@@ -4,13 +4,17 @@ class Solution:
         count = collections.Counter(chars)
         
         for word in words:
-            tempCount = count.copy()
-            for c in word:
-                tempCount[c] -= 1
-                if tempCount[c] < 0:
-                    ans -= len(word)
+            if set(word) - set(chars):
+                continue
+            words_count = Counter(word)
+            good = True
+            for c,freq in words_count.items():
+                #print(count[c])
+                if count[c] < freq:
+                    good = False
                     break
-            ans += len(word)
+            if good:
+                ans += len(word)
             
         return ans
                     
