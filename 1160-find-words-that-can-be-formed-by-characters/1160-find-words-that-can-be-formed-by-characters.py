@@ -2,7 +2,8 @@ class Solution:
     def countCharacters(self, words: List[str], chars: str) -> int:
         ans = 0 
         count = collections.Counter(chars)
-        
+        res = []
+
         for word in words:
             if set(word) - set(chars):
                 continue
@@ -15,6 +16,7 @@ class Solution:
                     break
             if good:
                 ans += len(word)
-            
+                res.append(word)
+        print(res)
         return ans
                     
