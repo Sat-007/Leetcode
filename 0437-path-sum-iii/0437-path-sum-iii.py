@@ -6,25 +6,34 @@
 #         self.right = right
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-        prefix_sum_count = {0: 1}  
         
-        def dfs(node, current_sum):
+        
+        count = 0  
+        def dfs(node, ps):
+            nonlocal count
             if not node:
-                return 0
+                return 
             
             
-            current_sum += node.val
-           
-            num_paths_to_curr = prefix_sum_count.get(current_sum - targetSum, 0)
+            cs = ps + node.val
             
-        
-            prefix_sum_count[current_sum] = prefix_sum_count.get(current_sum, 0) + 1
+            x = cs - targetSum
             
-            result = num_paths_to_curr + dfs(node.left, current_sum) + dfs(node.right, current_sum)
+            if x in freq:
+                count += freq[x]
             
-           
-            prefix_sum_count[current_sum] -= 1
+            if cs in freq:
+                freq[cs] += 1
+                
+            else:
+                freq[cs] = 1
             
-            return result
-        
-        return dfs(root, 0)
+            dfs(node.left, cs)
+            dfs(node.right, cs)
+            freq[cs] -= 1
+            
+                
+       
+        freq = {0: 1}  
+        dfs(root, 0)
+        return count
