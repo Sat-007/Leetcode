@@ -10,16 +10,16 @@ class Node:
 
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        if not root:
-            return None
-        
-        def connectTwoNodes(p, q) -> None:
-              if not p:
-                return
-              p.next = q
-              connectTwoNodes(p.left, p.right)
-              connectTwoNodes(q.left, q.right)
-              connectTwoNodes(p.right, q.left)
+        cur, nxt = root, root.left if root else None
 
-        connectTwoNodes(root.left, root.right)
+        while cur and nxt:
+            cur.left.next = cur.right
+            if cur.next:
+                cur.right.next = cur.next.left
+
+            cur = cur.next
+            if not cur:
+                cur = nxt
+                nxt = cur.left
+
         return root
