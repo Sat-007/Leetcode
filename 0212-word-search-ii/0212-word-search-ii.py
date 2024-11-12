@@ -1,49 +1,39 @@
+from typing import List
+from collections import defaultdict
 
-class TrieNode:
-  def __init__(self):
-    self.children: dict[str, TrieNode] = {}
-    self.word: str | None = None
-        
 class Solution:
-    def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
-        m = len(board)
-        n = len(board[0])
-        ans = []
-        root = TrieNode()
-
-        def insert(word: str) -> None:
-          node = root
-          for c in word:
-            node = node.children.setdefault(c, TrieNode())
-          node.word = word
-
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        WORD_KEY = '$'
+        trie = {}
         for word in words:
-          insert(word)
+            node = trie
+            for letter in word:
+                node = node.setdefault(letter, {})
+            node[WORD_KEY] = word
 
-        def dfs(i, j, node: TrieNode) -> None:
-          if i < 0 or i == m or j < 0 or j == n:
-            return
-          if board[i][j] == '*':
-            return
+        def dfs(i: int, j: int, parent: dict) -> None:
+            letter = board[i][j]
+            currNode = parent[letter]
+            
+            word_match = currNode.pop(WORD_KEY, False)
+            if word_match:
+                found_words.append(word_match)
+            
+            board[i][j] = '#'
+            for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                ni, nj = i + di, j + dj
+                if 0 <= ni < m and 0 <= nj < n and board[ni][nj] in currNode:
+                    dfs(ni, nj, currNode)
+            board[i][j] = letter
+            
+            if not currNode:
+                parent.pop(letter)
 
-          c = board[i][j]
-          if c not in node.children:
-            return
-
-          child = node.children[c]
-          if child.word:
-            ans.append(child.word)
-            child.word = None
-
-          board[i][j] = '*'
-          dfs(i + 1, j, child)
-          dfs(i - 1, j, child)
-          dfs(i, j + 1, child)
-          dfs(i, j - 1, child)
-          board[i][j] = c
-
+        m, n = len(board), len(board[0])
+        found_words = []
         for i in range(m):
-          for j in range(n):
-            dfs(i, j, root)
-
-        return ans
+            for j in range(n):
+                if board[i][j] in trie:
+                    dfs(i, j, trie)
+        
+        return found_words
