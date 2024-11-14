@@ -1,34 +1,24 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
+        prereqs = defaultdict(list)
+        in_degree = [0] * numCourses
         
-        res = []
-        prereqs = {c:[] for c in range(numCourses)}
-        for c,p in prerequisites:
-            prereqs[c].append(p)
+        for c, p in prerequisites:
+            prereqs[p].append(c) 
+            in_degree[c] += 1
             
         
-        seen, cycle = set(), set()
+        q = deque([i for i in range(numCourses) if in_degree[i] == 0 ])
+        order = []
         
-        def dfs(c):
-            if c in cycle:
-                return False
-            if c in seen: 
-                return True
+        while q:
+            course = q.popleft()
+            order.append(course)
             
-            cycle.add(c)
-            
-            for pre in prereqs[c]:
-                if dfs(pre) == False:
-                    return False
-                
-            seen.add(c)    
-            cycle.remove(c)    
-            res.append(c)    
-            return True
+            for next_course in prereqs[course]:
+                in_degree[next_course] -= 1
+                if in_degree[next_course] == 0:
+                    q.append(next_course)
         
-        for c in range(numCourses):
-            if dfs(c) == False:
-                return []
-            
-        return res
+        return order if len(order) == numCourses else []
