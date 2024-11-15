@@ -1,7 +1,6 @@
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         
-        
         l = 1
         r = max(piles)
         
@@ -18,3 +17,4 @@ class Solution:
             else:
                  l = k + 1
         return res
+                
